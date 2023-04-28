@@ -35,6 +35,7 @@ router.post(
     }
 
     const { email, password } = req.body;
+    //从req里面 pull out出email和password
 
     try {
       let user = await User.findOne({ email });

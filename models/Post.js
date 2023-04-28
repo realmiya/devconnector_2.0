@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+//https://www.udemy.com/course/mern-stack-front-to-back/learn/lecture/10055218#notes
+//重要
 const PostSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId

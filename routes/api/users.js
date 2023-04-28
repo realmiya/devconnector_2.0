@@ -19,9 +19,9 @@ router.post(
   check(
     'password',
     'Please enter a password with 6 or more characters'
-  ).isLength({ min: 6 }),
+  ).isLength({ min: 6 }),  //这个逗号前set所有的validation
   async (req, res) => {
-    const errors = validationResult(req);
+    const errors = validationResult(req);//这一行！
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -57,18 +57,18 @@ router.post(
 
       user.password = await bcrypt.hash(password, salt);
 
-      await user.save();
+      await user.save(); //这是一个promise，所以说 .save是整出一个promise，所以一开始可以加await
 
       const payload = {
         user: {
-          id: user.id
+          id: user.id //此处的user来自await user.save()里面的user
         }
       };
 
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
-        { expiresIn: '5 days' },
+        config.get('jwtSecret'),   //jwtsecret从config文件夹里面找
+        { expiresIn: '5 days' }, //一般设置为3600秒也就是一个小时，每小时测试一下，但是我们写程序不想写得测试太多次
         (err, token) => {
           if (err) throw err;
           res.json({ token });
